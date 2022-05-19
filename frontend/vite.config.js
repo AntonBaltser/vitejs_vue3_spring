@@ -4,30 +4,31 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  plugins: [vue()],
   server: {
-    base:'/templates/',
-    open:'/templates/'
+    // base:'/templates/',
+    // open:'/templates/',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    port: 3030,
+    proxy: {
+      '/': {
+        target: 'http://localhost:8080',
+        // ws.js: true
+      }
+    }
   },
   root: resolve(__dirname, 'src'),
-  plugins: [vue()],
   mode: 'development',
-  publicDir: '/src/templates/',
+  // publicDir: '/src/templates/',
   build: {
     emptyOutDir: false,
     outDir: resolve(__dirname, '../src/main/resources/'),
     assetsDir: 'static',
     rollupOptions: {
-        input : resolve('src', 'templates', 'index.html')
+        input : resolve(__dirname, 'src', 'templates', 'index.html')
     }
   },
-  // devServer: {
-  //   port: 4000,
-  //   proxy: {
-  //     '/': {
-  //       target: 'http://localhost:8080',
-  //       ws: true,
-  //       changeOrigin: true
-  //     }
-  //   }
-  // }
+
 })

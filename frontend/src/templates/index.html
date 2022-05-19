@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sarafan</title>
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <script th:inline="javascript">
+        let frontendData = [[${frontendData}]];
+    </script>
+</head>
+<body>
+<h3>Sarafan</h3>
+<div id="app"></div>
+<script type="module" src="../static/main.js"></script>
+</body>
+</html>

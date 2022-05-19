@@ -1,22 +1,44 @@
-<script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
+<script>
+import MessageList from './components/messages/MessageList.vue'
+import axios from "axios";
+import {addHandler} from "./util/ws";
+import {getIndex} from "./util/collections";
+export default {
+  components: {
+    MessageList,
+  },
+  data() {
+    return {
+      messages: frontendData.messages,
+      profile: frontendData.profile
+      // messages: '',
+      // pofile: 'null'
+    }
+  },
+// mounted(){
+//     axios.get('http://localhost:8080/message/')
+//         .then(res => this.messages = res.data)
+//   console.log(this.messages)
+// },
+created() {
+    addHandler(data => {
+    let index = getIndex(this.messages, data.id)
+      if(index > -1)
+        this.messages.splice(index, 1, data)
+      else
+        this.messages.push(data)
+    })
+}
+}
 </script>
 
 <template>
-  <h1>!!!!</h1>
-  <img alt="Vue logo" src="../assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+  <div>
+    <p>phallop</p>
+        <div v-if="!profile">Необходимо авторизоваться через <a href="/login">Google</a></div>
+        <div v-else>
+          <div>{{ profile.name }}&nbsp <a href="/logout">ВЫйти</a></div>
+          <MessageList :messages="messages"/>
+        </div>
+  </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
